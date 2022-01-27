@@ -1,0 +1,9 @@
+---
+title: "About"
+description: |
+  This website contains a collection of the projects and visualisation I have completed during my Singapore Management University Master of IT in Business (Analytics) journey. Enjoy looking around and diving into my personal little viz display.
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
