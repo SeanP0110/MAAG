@@ -19,5 +19,5 @@ navbar:
     - text: "Take-Home Exercises"
       menu:
       - text: "Take Home Exercise 1"
-        href: "THE1.html"
+        href: THE1.html
 output: distill::distill_article

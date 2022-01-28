@@ -9,15 +9,131 @@ author:
 date: "`r Sys.Date()`"
 output: distill::distill_article
 ---
+# Necessary Libraries
+The libraries used for this exercise are going to be tidyverse, readxl, and knitr. They are installed and uploaded using the following chunk of code:
+
+```{r, eval=TRUE, echo=TRUE, results= "hide"}
+packages = c('tidyverse', 'readxl', 'knitr')
+
+for(p in packages){
+  if(!require(p, character.only = T)){
+    install.packages(p)
+  }
+  library(p, character.only = T)
+}
+```
+
 # Pareto Diagram
 The Pareto Chart consists of two pieces. A bar chart showing the absolute frequency of returns by category and a line chart showing the proportional cumulative frequency of returns. 
 
 ## Data Source
 The file used for this exercise has been provided by the professor and is called: Superstore-2021.xls
 
-## Bar Chart
-First, let us look at creating the bar chart. Before plotting, some data preparation is necessary.
+### Data Upload and Preparation
+The file has 3 sheets: Orders, Returns, and People. For this exercise we only need Orders and Returns. We upload them to R using the following code:
 
+```{r, eval=TRUE, echo=TRUE}
+orders <- read_xls("data/Superstore-2021.xls", sheet = "Orders")
+returns <- read_xls("data/Superstore-2021.xls", sheet = "Returns")
+```
+
+In order to process the data accurately, we need to join the two sheets. But, what is the common variable we can join them on? Time to look at the table summary for both.
+
+```{r, eval=TRUE, echo=TRUE}
+str(orders)
+str(returns)
+```
+
+Order ID is the common denominator here. Given that we are looking at returns, we should ideally left join returns and orders. This can be done with the following command. 
+
+```{r, eval = TRUE, echo = TRUE}
+join <- left_join(returns, orders, by = c("Order ID" = "Order ID"))
+str(join)
+```
+
+Now that we have both files merged together, it is time to extract the necessary data.
+
+```{r, eval = TRUE, echo = TRUE}
+freq_returned <- join %>% 
+  count(`Sub-Category`) %>%
+  rename(Returns = n)
+# Here the returns per sub-category are counted and then saved within a new tibble (data frame).
+
+freq_sort <- freq_returned %>% arrange(desc(Returns))
+#For the purposes of preparing the graph, we sort the sub-categories by number of returns in descending order.
+
+freq_cum <- freq_sort %>% mutate(CumReturns = cumsum(Returns))
+#Next we use the cumsum function to add a cumulative frequency column.
+
+freq_cum_prop <- freq_cum %>% mutate(
+  PropCumReturns = CumReturns/sum(Returns))
+#Lastly, we add a column for proportional cumulative frequency. This is each cumulative frequency divided by the total number of returns.
+
+```
+
+## Bar Chart
+Now that we are done with the data prep, time for the first viz.
+
+```{r, eval=TRUE, echo=TRUE}
+bar <- freq_cum_prop %>% ggplot(aes(reorder(`Sub-Category`, -Returns), Returns)) + 
+  geom_col(color = "blue", fill = "blue") +
+  labs(x = "Sub-Catgory") +
+  scale_y_continuous(limits= c(0,sum(freq_cum_prop$Returns),100)) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+```
+The code for the bar graph is shown above. We use the geon_col method to create a bar chart. Our x variable are the sub-categories ordered from highest to lowest number of returns. The heigh of the bar is determind by Returns. Moreover, the colour is set to blue for both the outline and the fill of the bar. I also added a more coherent x axis title and altered the scale to be adequate for fusion with the line plot. Given the high number of elements within the variable "Sub-Category," I decided to tilt the labels by 90 degrees to avoid overlap. The result is:
+
+```{r, eval=TRUE,echo=FALSE}
+bar
+```
+## Line Plot
+The second element of the Pareto Diagram is the line plot showing the proportional cumulative frequency of the data. This means, that each point represents the sum of the fractions of the total number of returns of each category up to that point (inclusive of the category the point is at).
+
+Now that we are done with the data prep, time for the first viz.
+
+```{r, eval=TRUE, echo=TRUE}
+line <- freq_cum_prop %>% ggplot(aes(
+  reorder(`Sub-Category`, PropCumReturns), PropCumReturns)) +
+  geom_point(shape = 19, size = 1.5) + 
+  geom_path(aes(reorder(`Sub-Category`, PropCumReturns), group = 1)) +
+  scale_y_continuous(labels = scales::percent_format()) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  labs(x = "Sub-Category")
+```
+
+XXX
+
+```{r, eval=TRUE,echo=FALSE}
+line
+```
+
+## Putting the Graphs Together
+
+```{r, eval=TRUE, echo=TRUE}
+tot_returns = sum(freq_cum_prop$Returns)
+```
+
+AAA
+
+```{r, eval=TRUE, echo=TRUE}
+pareto <-
+  freq_cum_prop %>% ggplot(aes(reorder(`Sub-Category`, -Returns), Returns)) + 
+  geom_col(color = "blue", fill = "blue") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  geom_point(aes(reorder(`Sub-Category`, PropCumReturns), PropCumReturns*tot_returns), 
+             shape = 19, size = 1.5) + 
+  geom_path(aes(reorder(`Sub-Category`, PropCumReturns), PropCumReturns*tot_returns, group = 1)) +
+  scale_y_continuous("Returns", sec.axis = 
+                       sec_axis(~.*1/tot_returns, name = "Percentage",
+                                labels = scales::percent_format()),
+                     limits= c(0,sum(freq_cum_prop$Returns),100)) +
+  labs(x = "Sub-Catgory")
+```
+
+YYYY
+
+```{r, eval=TRUE, echo=FALSE}
+pareto
 ```
 
 ```{r setup, include=FALSE}
