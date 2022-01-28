@@ -1,0 +1,36 @@
+---
+title: "Take Home Exercise 1"
+description: |
+  Here is the take home exercise 1 solution as interpreted by me. The first part of this article looks at a Pareto Diagram describing the returns by item sub-category in a supermarket. The second part of the post portrays Singapore's population pyramid as divided by sex.
+author:
+  - name: Sean Samuel Prajs 
+    url: https://github.com/SeanP0110
+    affiliation: RStudio
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+# Pareto Diagram
+The Pareto Chart consists of two pieces. A bar chart showing the absolute frequency of returns by category and a line chart showing the proportional cumulative frequency of returns. 
+
+## Data Source
+The file used for this exercise has been provided by the professor and is called: Superstore-2021.xls
+
+## Bar Chart
+First, let us look at creating the bar chart. Before plotting, some data preparation is necessary.
+
+### Bar Chart Data Upload and Prep
+
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+Distill is a publication format for scientific and technical writing, native to the web. 
+
+Learn more about using Distill for R Markdown at <https://rstudio.github.io/distill>.
+
+
+
+
+

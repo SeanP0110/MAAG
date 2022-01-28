@@ -6,7 +6,7 @@
       "description": "This website contains a collection of the projects and visualisation I have completed during my Singapore Management University Master of IT in Business (Analytics) journey. Enjoy looking around and diving into my personal little viz display.",
       "author": [],
       "contents": "\r\n\r\n\r\n\r\n",
-      "last_modified": "2022-01-27T23:05:34+08:00"
+      "last_modified": "2022-01-28T19:37:05+08:00"
     },
     {
       "path": "index.html",
@@ -14,7 +14,21 @@
       "description": "Welcome to the website. I hope you enjoy it!\n",
       "author": [],
       "contents": "\r\n\r\n\r\n\r\n",
-      "last_modified": "2022-01-27T23:05:49+08:00"
+      "last_modified": "2022-01-28T19:33:31+08:00"
+    },
+    {
+      "path": "THE1.html",
+      "title": "Take Home Exercise 1",
+      "description": "Here is the take home exercise 1 solution as interpreted by me. The first part of this article looks at a Pareto Diagram describing the returns by item sub-category in a supermarket. The second part of the post portrays Singapore's population pyramid as divided by sex.\n",
+      "author": [
+        {
+          "name": "Sean Samuel Prajs",
+          "url": "https://github.com/SeanP0110"
+        }
+      ],
+      "date": "`r Sys.Date()`",
+      "contents": "\r\nPareto Diagram\r\nThe Pareto Chart consists of two pieces. A bar chart showing the absolute frequency of returns by category and a line chart showing the proportional cumulative frequency of returns.\r\nData Source\r\nThe file used for this exercise has been provided by the professor and is called: Superstore-2021.xls\r\nBar Chart\r\nFirst, let us look at creating the bar chart. Before plotting, some data preparation is necessary.\r\nBar Chart Data Upload and Prep\r\n\r\n\r\n\r\nDistill is a publication format for scientific and technical writing, native to the web. \r\n\r\nLearn more about using Distill for R Markdown at <https://rstudio.github.io/distill>.\r\n\r\n\r\n\r\n\r\n\r\n```{.r .distill-force-highlighting-css}\r\n\r\n\r\n",
+      "last_modified": "2022-01-28T19:32:04+08:00"
     }
   ],
   "collections": []
